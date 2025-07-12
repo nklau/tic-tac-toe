@@ -193,7 +193,6 @@ class _TicTacToeGame extends State<TicTacToeGame> {
 
   @override
   Widget build(BuildContext context) {
-    final borderSide = const BorderSide(color: Colors.black, width: 0.5);
     return Column(
       spacing: 100,
       children: [
@@ -208,22 +207,10 @@ class _TicTacToeGame extends State<TicTacToeGame> {
             final col = index % 3;
 
             return GestureDetector(
-              // TODO extract to widget
               onTap: () {
                 _takeTurn(index);
               },
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: row > 0 ? borderSide : BorderSide.none,
-                    bottom: row < 2 ? borderSide : BorderSide.none,
-                    left: col > 0 ? borderSide : BorderSide.none,
-                    right: col < 2 ? borderSide : BorderSide.none,
-                  ),
-                ),
-                child: Text(moves[index], style: TextStyle(fontSize: 100.0)),
-              ),
+              child: GridTile(row: row, col: col, symbol: moves[index]),
             );
           }),
         ),
@@ -237,6 +224,39 @@ class _TicTacToeGame extends State<TicTacToeGame> {
           child: const Text('New Game'),
         ),
       ],
+    );
+  }
+}
+
+class GridTile extends StatelessWidget {
+  final BorderSide _borderSide = const BorderSide(
+    color: Colors.black,
+    width: 0.5,
+  );
+  final int row;
+  final int col;
+  final String symbol;
+
+  const GridTile({
+    super.key,
+    required this.row,
+    required this.col,
+    required this.symbol,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        border: Border(
+          top: row > 0 ? _borderSide : BorderSide.none,
+          bottom: row < 2 ? _borderSide : BorderSide.none,
+          left: col > 0 ? _borderSide : BorderSide.none,
+          right: col < 2 ? _borderSide : BorderSide.none,
+        ),
+      ),
+      child: Text(symbol, style: TextStyle(fontSize: 100.0)),
     );
   }
 }
