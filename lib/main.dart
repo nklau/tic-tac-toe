@@ -133,64 +133,42 @@ class _TicTacToeGame extends State<TicTacToeGame> {
 
       if (_checkWin()) {
         widget.onWin(_playerSymbol());
-        _gameOver = true;
-
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              // TODO extract to widget that takes title msg
-              title: Text('Player ${_playerSymbol()} Wins!'),
-              content: const Text('Would you like to play again?'),
-              actions: [
-                TextButton(
-                  child: const Text('See Board'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: const Text('New Game'),
-                  onPressed: () {
-                    _newGame();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        _endGame(true);
       } else if (moves.every((move) => move.isNotEmpty)) {
-        _gameOver = true;
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              // TODO see line 118 comment
-              title: Text('Tie Game!'),
-              content: const Text('Would you like to play again?'),
-              actions: [
-                TextButton(
-                  child: const Text('See Board'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: const Text('New Game'),
-                  onPressed: () {
-                    _newGame();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        _endGame(false);
       } else {
         _xTurn = !_xTurn;
       }
     });
+  }
+
+  void _endGame(bool win) {
+    _gameOver = true;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(win ? 'Player ${_playerSymbol()} Wins!' : 'Tie Game!'),
+          content: const Text('Would you like to play again?'),
+          actions: [
+            TextButton(
+              child: const Text('See Board'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('New Game'),
+              onPressed: () {
+                _newGame();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   bool _checkWin() {
