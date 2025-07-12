@@ -26,6 +26,13 @@ class _TicTacToeApp extends State<TicTacToeApp> {
     });
   }
 
+  void _resetScores() {
+    setState(() {
+      _oScore = 0;
+      _xScore = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,7 +42,16 @@ class _TicTacToeApp extends State<TicTacToeApp> {
           children: [
             PlayerInfo(oScore: _oScore, xScore: _xScore),
             TicTacToeGame(onWin: _incrementScore),
-          ], // TODO reset button
+            ElevatedButton(
+              onPressed: () {
+                _resetScores();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red.shade100,
+              ),
+              child: const Text('Reset Scores'),
+            ),
+          ],
         ),
       ),
     );
@@ -233,6 +249,9 @@ class _TicTacToeGame extends State<TicTacToeGame> {
           onPressed: () {
             _newGame();
           },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue.shade100,
+          ),
           child: const Text('New Game'),
         ),
       ],
