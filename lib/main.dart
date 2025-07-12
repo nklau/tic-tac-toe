@@ -9,7 +9,7 @@ class TicTacToeApp extends StatefulWidget {
 
   @override
   State<TicTacToeApp> createState() => _TicTacToeApp();
-} // TODO if alert is dimissed prevent any more moves
+}
 
 class _TicTacToeApp extends State<TicTacToeApp> {
   int _oScore = 0, _xScore = 0;
@@ -109,6 +109,7 @@ class TicTacToeGame extends StatefulWidget {
 }
 
 class _TicTacToeGame extends State<TicTacToeGame> {
+  bool _gameOver = false;
   bool _xTurn = true;
   List<String> moves = List.filled(9, '');
 
@@ -120,17 +121,19 @@ class _TicTacToeGame extends State<TicTacToeGame> {
     setState(() {
       moves = List.filled(9, '');
       _xTurn = true;
+      _gameOver = false;
     });
   }
 
   void _takeTurn(index) {
-    if (moves[index].isNotEmpty) return;
+    if (moves[index].isNotEmpty || _gameOver) return;
 
     setState(() {
       moves[index] = _playerSymbol();
 
       if (_checkWin()) {
         widget.onWin(_playerSymbol());
+        _gameOver = true;
 
         showDialog(
           context: context,
@@ -158,6 +161,7 @@ class _TicTacToeGame extends State<TicTacToeGame> {
           },
         );
       } else if (moves.every((move) => move.isNotEmpty)) {
+        _gameOver = true;
         showDialog(
           context: context,
           builder: (context) {
