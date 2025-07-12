@@ -197,7 +197,7 @@ class _TicTacToeGame extends State<TicTacToeGame> {
   Widget build(BuildContext context) {
     final borderSide = const BorderSide(color: Colors.black, width: 0.5);
     return Column(
-      spacing: 150,
+      spacing: 100,
       children: [
         Text("${_playerSymbol()}'s Turn", style: TextStyle(fontSize: 18.0)),
         GridView.count(
@@ -228,6 +228,12 @@ class _TicTacToeGame extends State<TicTacToeGame> {
               ),
             );
           }),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            _newGame();
+          },
+          child: const Text('New Game'),
         ),
       ],
     );
